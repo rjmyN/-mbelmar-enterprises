@@ -118,25 +118,6 @@ header {
     letter-spacing: 1px;
 }
 
-/* Image Section */
-.image-section {
-    padding: 4rem 2rem;
-    background-color: var(--black);
-}
-
-.image-container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.office-image {
-    width: 100%;
-    height: auto;
-    border-radius: 4px;
-    box-shadow: 0 4px 20px rgba(201, 169, 97, 0.2);
-    border: 1px solid var(--border-color);
-}
-
 /* Contact Section */
 .contact-section {
     min-height: 100vh;
