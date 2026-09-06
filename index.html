@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Official website of Mbelmar Enterprises.">
+    <title>Mbelmar Enterprises | Official Website</title>
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <nav class="nav-container">
+            <a href="#home" class="logo-link" aria-label="Mbelmar Enterprises Home">
+                <img src="logo.jpg" alt="Mbelmar Enterprises" class="header-logo">
+            </a>
+            <a href="#contact" class="nav-link">Contact Us</a>
+        </nav>
+    </header>
+
+    <!-- Main Hero Section -->
+    <main id="home">
+        <section class="hero-section">
+            <div class="hero-content">
+                <img src="logo.jpg" alt="Mbelmar Enterprises" class="main-logo">
+                <h1 class="company-name">Mbelmar Enterprises</h1>
+                <p class="company-tagline">Private Parent Company</p>
+            </div>
+        </section>
+
+        <!-- Image Section -->
+        <section class="image-section">
+            <div class="image-container">
+                <img src="photo1.jpg" alt="Mbelmar Enterprises Office" class="office-image">
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact-section">
+            <div class="contact-container">
+                <h2>Contact Us</h2>
+                <p class="contact-intro">Please complete the form below to submit your inquiry.</p>
+
+                <form id="contactForm" class="contact-form" novalidate>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="title">Title <span class="required">*</span></label>
+                            <select id="title" name="title" required>
+                                <option value="">Select</option>
+                                <option value="mr">Mr.</option>
+                                <option value="mrs">Mrs.</option>
+                                <option value="ms">Ms.</option>
+                                <option value="dr">Dr.</option>
+                                <option value="other">Other</option>
+                            </select>
+                            <span class="error-message" id="titleError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fullName">Full Name <span class="required">*</span></label>
+                            <input type="text" id="fullName" name="fullName" required>
+                            <span class="error-message" id="fullNameError"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" name="email" required>
+                            <span class="error-message" id="emailError"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" name="phone">
+                            <span class="error-message" id="phoneError"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="reason">Reason for Inquiry <span class="required">*</span></label>
+                        <select id="reason" name="reason" required>
+                            <option value="">Select</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="business">Business Inquiry</option>
+                            <option value="banking">Banking / Financial Institution</option>
+                            <option value="government">Government / Regulatory</option>
+                            <option value="partnership">Partnership</option>
+                            <option value="vendor">Vendor / Supplier</option>
+                            <option value="other">Other</option>
+                        </select>
+                        <span class="error-message" id="reasonError"></span>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label for="message">Message</label>
+                        <textarea id="message" name="message" rows="6"></textarea>
+                        <span class="error-message" id="messageError"></span>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Submit Inquiry</button>
+                </form>
+
+                <div id="successMessage" class="success-message hidden">
+                    <p>Thank you for contacting us. Your inquiry has been received and will be reviewed by our team.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2026 Mbelmar Enterprises. All rights reserved.</p>
+            <a href="privacy.html" class="footer-link">Privacy Policy</a>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
