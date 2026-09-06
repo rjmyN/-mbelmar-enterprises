@@ -1,11 +1,11 @@
-// Form Validation and Submission Handler
-document.addEventListener('DOMContentLoaded', function() {
+// Form Validation and Submission Handler with Formspree
+document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('contactForm');
     const successMessage = document.getElementById('successMessage');
-    
+
     // Email validation regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    
+
     // Phone validation regex (basic international format)
     const phoneRegex = /^[\d\s\-\+\(\)]+$/;
 
@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (!validateField(fullName)) isValid = false;
         if (!validateField(email)) isValid = false;
         if (!validateField(reason)) isValid = false;
-        
+
         // Validate phone only if it has a value
         if (phone.value.trim()) {
             if (!validateField(phone)) isValid = false;
@@ -80,14 +80,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // Real-time validation on blur
     const formFields = form.querySelectorAll('input, select, textarea');
     formFields.forEach(field => {
-        field.addEventListener('blur', function() {
+        field.addEventListener('blur', function () {
             if (this.value.trim() || this.hasAttribute('required')) {
                 validateField(this);
             }
         });
 
         // Clear error on input
-        field.addEventListener('input', function() {
+        field.addEventListener('input', function () {
             if (this.classList.contains('error')) {
                 this.classList.remove('error');
                 const errorElement = document.getElementById(this.id + 'Error');
@@ -98,8 +98,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Form submission handler
-    form.addEventListener('submit', function(e) {
+    // Form submission handler with Formspree
+    form.addEventListener('submit', function (e) {
         e.preventDefault();
 
         // Validate form
@@ -113,63 +113,52 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Collect form data
-        const formData = {
-            title: document.getElementById('title').value,
-            fullName: document.getElementById('fullName').value,
-            email: document.getElementById('email').value,
-            phone: document.getElementById('phone').value,
-            reason: document.getElementById('reason').value,
-            message: document.getElementById('message').value,
-            timestamp: new Date().toISOString(),
-            honeypot: '' // Anti-spam field (would be hidden in production)
-        };
-
-        // Basic spam protection - check submission frequency
-        const lastSubmission = localStorage.getItem('lastSubmission');
-        const now = Date.now();
-        
-        if (lastSubmission && (now - parseInt(lastSubmission)) < 60000) {
-            alert('Please wait before submitting another inquiry.');
-            return;
-        }
-
         // Disable submit button
         const submitBtn = form.querySelector('.submit-btn');
         const originalBtnText = submitBtn.textContent;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Submitting...';
 
-        // Simulate form submission (in production, this would POST to a backend API)
-        setTimeout(() => {
-            // Store submission time
-            localStorage.setItem('lastSubmission', now.toString());
+        // Submit to Formspree
+        const formData = new FormData(form);
 
-            // Log form data (in production, this would be sent to server)
-            console.log('Form submitted:', formData);
+        fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Hide form and show success message
+                    form.style.display = 'none';
+                    successMessage.classList.remove('hidden');
+                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-            // Hide form and show success message
-            form.style.display = 'none';
-            successMessage.classList.remove('hidden');
-
-            // Scroll to success message
-            successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-            // Reset form and button after delay
-            setTimeout(() => {
-                form.reset();
-                form.style.display = 'block';
-                successMessage.classList.add('hidden');
+                    // Reset form after delay
+                    setTimeout(() => {
+                        form.reset();
+                        form.style.display = 'block';
+                        successMessage.classList.add('hidden');
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = originalBtnText;
+                    }, 5000);
+                } else {
+                    throw new Error('Form submission failed');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('There was an error submitting your inquiry. Please try again or contact us directly at admin@belmarenterprises.com');
                 submitBtn.disabled = false;
                 submitBtn.textContent = originalBtnText;
-            }, 5000);
-
-        }, 1000);
+            });
     });
 
     // Smooth scroll for navigation links
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function(e) {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const target = document.querySelector(this.getAttribute('href'));
             if (target) {
