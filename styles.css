@@ -418,3 +418,18 @@ footer {
         font-size: 3.5rem;
     }
 }
+
+/* Hide Netlify Badge */
+.netlify-badge,
+[href*="netlify"],
+a[href*="netlify.com"] {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+}
+
+/* Alternative method - hide any badge/attribution */
+body>a[href]:last-of-type,
+body>div:last-of-type>a[href*="powered"] {
+    display: none !important;
+}
