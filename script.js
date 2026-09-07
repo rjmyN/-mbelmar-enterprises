@@ -233,3 +233,52 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }, 500);
 });
+
+// Additional aggressive Netlify badge removal for mobile
+(function () {
+    'use strict';
+
+    function aggressiveRemoveBadge() {
+        // Get all elements
+        document.querySelectorAll('*').forEach(function (el) {
+            try {
+                // Check text content
+                var text = el.textContent || el.innerText || '';
+                var href = el.href || '';
+
+                // If contains netlify or powered by
+                if (text.toLowerCase().includes('netlify') ||
+                    text.toLowerCase().includes('powered by netlify') ||
+                    href.includes('netlify.com')) {
+
+                    // Check if it's positioned (likely a badge)
+                    var style = window.getComputedStyle(el);
+                    if (style.position === 'fixed' || style.position === 'absolute') {
+                        if (el.parentNode) {
+                            el.parentNode.removeChild(el);
+                        }
+                    }
+                }
+            } catch (e) { }
+        });
+    }
+
+    // Run on load
+    aggressiveRemoveBadge();
+    window.addEventListener('load', aggressiveRemoveBadge);
+    document.addEventListener('DOMContentLoaded', aggressiveRemoveBadge);
+
+    // Keep running for 15 seconds
+    for (var i = 0; i < 30; i++) {
+        setTimeout(aggressiveRemoveBadge, i * 500);
+    }
+
+    // Watch for new elements being added
+    if (typeof MutationObserver !== 'undefined') {
+        var observer = new MutationObserver(aggressiveRemoveBadge);
+        observer.observe(document.documentElement, {
+            childList: true,
+            subtree: true
+        });
+    }
+})();
