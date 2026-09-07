@@ -100,10 +100,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Form submission handler with Formspree
     form.addEventListener('submit', function (e) {
-        e.preventDefault();
-
-        // Validate form
+        // Validate form first
         if (!validateForm()) {
+            e.preventDefault();
             // Scroll to first error
             const firstError = form.querySelector('.error');
             if (firstError) {
@@ -113,47 +112,13 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // Disable submit button
+        // If validation passes, let the form submit naturally to Formspree
+        // Formspree will handle the redirect
         const submitBtn = form.querySelector('.submit-btn');
-        const originalBtnText = submitBtn.textContent;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Submitting...';
 
-        // Submit to Formspree
-        const formData = new FormData(form);
-
-        fetch(form.action, {
-            method: 'POST',
-            body: formData,
-            headers: {
-                'Accept': 'application/json'
-            }
-        })
-            .then(response => {
-                if (response.ok) {
-                    // Hide form and show success message
-                    form.style.display = 'none';
-                    successMessage.classList.remove('hidden');
-                    successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                    // Reset form after delay
-                    setTimeout(() => {
-                        form.reset();
-                        form.style.display = 'block';
-                        successMessage.classList.add('hidden');
-                        submitBtn.disabled = false;
-                        submitBtn.textContent = originalBtnText;
-                    }, 5000);
-                } else {
-                    throw new Error('Form submission failed');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('There was an error submitting your inquiry. Please try again or contact us directly at admin@belmarenterprises.com');
-                submitBtn.disabled = false;
-                submitBtn.textContent = originalBtnText;
-            });
+        // Form will submit naturally - no e.preventDefault()
     });
 
     // Smooth scroll for navigation links
