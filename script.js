@@ -189,4 +189,47 @@ document.addEventListener('DOMContentLoaded', function () {
 
         lastScroll = currentScroll;
     });
+
+    // Remove Netlify Badge
+    function removeNetlifyBadge() {
+        // Remove by various selectors
+        const selectors = [
+            'a[href*="netlify"]',
+            '.netlify-badge',
+            '[class*="netlify"]',
+            '[id*="netlify"]',
+            'a[href="https://www.netlify.com"]',
+            'a[href="https://netlify.com"]'
+        ];
+
+        selectors.forEach(selector => {
+            const elements = document.querySelectorAll(selector);
+            elements.forEach(el => {
+                el.remove();
+            });
+        });
+
+        // Check for any fixed positioned links at bottom
+        const allLinks = document.querySelectorAll('a');
+        allLinks.forEach(link => {
+            const styles = window.getComputedStyle(link);
+            if (styles.position === 'fixed' && link.href.includes('netlify')) {
+                link.remove();
+            }
+        });
+    }
+
+    // Run immediately and after page load
+    removeNetlifyBadge();
+    window.addEventListener('load', removeNetlifyBadge);
+
+    // Keep checking for 5 seconds (in case badge loads later)
+    let checkCount = 0;
+    const badgeInterval = setInterval(() => {
+        removeNetlifyBadge();
+        checkCount++;
+        if (checkCount > 10) {
+            clearInterval(badgeInterval);
+        }
+    }, 500);
 });

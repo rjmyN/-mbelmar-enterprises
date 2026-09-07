@@ -419,17 +419,42 @@ footer {
     }
 }
 
-/* Hide Netlify Badge */
+/* Hide Netlify Badge - Comprehensive */
 .netlify-badge,
 [href*="netlify"],
-a[href*="netlify.com"] {
+a[href*="netlify.com"],
+a[href*="netlify"],
+[class*="netlify"],
+[id*="netlify"],
+div[class*="badge"],
+a[rel="noopener"][target="_blank"][href*="netlify"] {
     display: none !important;
     visibility: hidden !important;
     opacity: 0 !important;
+    position: absolute !important;
+    left: -99999px !important;
+    width: 0 !important;
+    height: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Hide any fixed badges */
+body>a[style*="position: fixed"],
+body>div[style*="position: fixed"]>a {
+    display: none !important;
 }
 
 /* Alternative method - hide any badge/attribution */
 body>a[href]:last-of-type,
 body>div:last-of-type>a[href*="powered"] {
     display: none !important;
+}
+
+/* Prevent any element with netlify in href from showing */
+a[href^="https://netlify"],
+a[href^="https://www.netlify"],
+a[href^="http://netlify"],
+a[href^="http://www.netlify"] {
+    display: none !important;
+    visibility: hidden !important;
 }
