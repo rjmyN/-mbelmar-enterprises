@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // Form submission handler with Formspree
+    // Form submission handler for Netlify Forms
     form.addEventListener('submit', function (e) {
         // Validate form first
         if (!validateForm()) {
@@ -112,13 +112,12 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
 
-        // If validation passes, let the form submit naturally to Formspree
-        // Formspree will handle the redirect
+        // If validation passes, let Netlify handle the form submission
         const submitBtn = form.querySelector('.submit-btn');
         submitBtn.disabled = true;
         submitBtn.textContent = 'Submitting...';
 
-        // Form will submit naturally - no e.preventDefault()
+        // Form will submit naturally to Netlify
     });
 
     // Smooth scroll for navigation links
